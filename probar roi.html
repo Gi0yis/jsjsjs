@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROI Calculator</title>
+</head>
+<body>
+    <h1>ROI Calculator</h1>
+    <form id="roiForm">
+        <label for="budget">Presupuesto:</label>
+        <input type="number" id="budget" name="budget" required><br><br>
+        
+        <label for="duration_months">Duración del proyecto en meses:</label>
+        <input type="number" id="duration_months" name="duration_months" required><br><br>
+        
+        <label for="employees">Número de empleados:</label>
+        <input type="number" id="employees" name="employees" required><br><br>
+        
+        <label for="management_resources">Recursos de gestión:</label>
+        <input type="number" id="management_resources" name="management_resources" required><br><br>
+        
+        <label for="training_costs">Costos de capacitación:</label>
+        <input type="number" id="training_costs" name="training_costs" required><br><br>
+        
+        <label for="communication_costs">Costos de comunicación:</label>
+        <input type="number" id="communication_costs" name="communication_costs" required><br><br>
+        
+        <label for="adoption_speed_months">Velocidad de adopción en meses:</label>
+        <input type="number" id="adoption_speed_months" name="adoption_speed_months" required><br><br>
+        
+        <label for="employee_competence_percent">Porcentaje de competencia de los empleados:</label>
+        <input type="number" id="employee_competence_percent" name="employee_competence_percent" required><br><br>
+        
+        <label for="utilization_percent">Porcentaje de utilización:</label>
+        <input type="number" id="utilization_percent" name="utilization_percent" required><br><br>
+        
+        <label for="financial_risks">Riesgos financieros:</label>
+        <input type="number" id="financial_risks" name="financial_risks" required><br><br>
+        
+        <label for="productivity_savings">Ahorros de productividad:</label>
+        <input type="number" id="productivity_savings" name="productivity_savings" required><br><br>
+        
+        <label for="risk_reduction">Reducción de riesgos:</label>
+        <input type="number" id="risk_reduction" name="risk_reduction" required><br><br>
+        
+        <label for="project_info">Información del proyecto:</label>
+        <textarea id="project_info" name="project_info" required></textarea><br><br>
+        
+        <button type="submit">Calcular ROI</button>
+    </form>
+
+    <h2>Resultado</h2>
+    <pre id="result"></pre>
+
+    <script>
+        document.getElementById('roiForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const data = {
+                budget: document.getElementById('budget').value,
+                duration_months: document.getElementById('duration_months').value,
+                employees: document.getElementById('employees').value,
+                management_resources: document.getElementById('management_resources').value,
+                training_costs: document.getElementById('training_costs').value,
+                communication_costs: document.getElementById('communication_costs').value,
+                adoption_speed_months: document.getElementById('adoption_speed_months').value,
+                employee_competence_percent: document.getElementById('employee_competence_percent').value,
+                utilization_percent: document.getElementById('utilization_percent').value,
+                financial_risks: document.getElementById('financial_risks').value,
+                productivity_savings: document.getElementById('productivity_savings').value,
+                risk_reduction: document.getElementById('risk_reduction').value,
+                project_info: document.getElementById('project_info').value
+            };
+
+            fetch('https://roi-calculator-ezdxh2cjgvg9fvaz.eastus-01.azurewebsites.net/data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                document.getElementById('result').textContent = 'Error: ' + error;
+            });
+        });
+    </script>
+</body>
+</html>
